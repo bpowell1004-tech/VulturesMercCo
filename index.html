@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vultures Mercenary Company</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <!-- Use the provided logo file -->
+            <img src="logo.png" alt="Vultures Logo" class="logo" />
+            <h1>Vultures Mercenary Company</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#history">History</a></li>
+                <li><a href="#contracts">Contracts</a></li>
+                <li><a href="#recruitment">Recruitment</a></li>
+                <li><a href="#ranks">Ranks</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#disclosures">Disclosures</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- History section -->
+        <section id="history" class="section">
+            <h2>History &amp; Legacy</h2>
+            <p>
+              In the shadow of a once‑mighty order known only as the Crusade,
+              a new brotherhood rose from the ashes. The Vultures trace their
+              origins to this enigmatic precursor – a force that guarded technology
+              and humanity in equal measure. When the Crusade's era ended, a
+              seasoned warrior named Brad Maximus Hawthorne forged a smaller,
+              more agile company dedicated to preserving what remained of their
+              ideals. Today, the Vultures operate independently, offering their
+              skills to protect convoys, gather intelligence and rescue those in
+              need, always mindful of the past that shaped them.
+            </p>
+        </section>
+
+        <!-- Contracts section -->
+        <section id="contracts" class="section">
+            <h2>Contracts</h2>
+            <p>
+              Choose a mission type and complete the form below. Contracts last a
+              maximum of <strong>three in‑game days</strong> – when the objective is
+              accomplished or the timeframe expires, the contract ends. If your
+              goals are not met within the allotted time, a new contract is
+              required. Payment terms: <strong>50% due upfront</strong> and
+              <strong>50% upon completion</strong>. The Patriarch cannot be
+              directly requested; Brad decides which missions to accept.
+            </p>
+
+            <!-- Convoy Escort Form -->
+            <form id="escort-form" class="contract-form" action="/api/submit" method="POST">
+              <!-- Hidden identifier for the form -->
+              <input type="hidden" name="form" value="Convoy Escort" />
+              <h3>Convoy Escort</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Start Location:</label>
+              <input type="text" name="start_location" required />
+              <label>Destination:</label>
+              <input type="text" name="destination" required />
+              <label>Cargo Description:</label>
+              <textarea name="cargo_description" rows="2"></textarea>
+              <label>Known Threats Along Route:</label>
+              <textarea name="threats" rows="2"></textarea>
+              <label>Special Instructions:</label>
+              <textarea name="instructions" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <!-- Expose friendly tier names to clients, but keep internal cost values -->
+                <label><input type="radio" name="value_escort" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_escort" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_escort" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_escort" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_escort" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_escort" value="2" /> 2</label>
+                <label><input type="radio" name="duration_escort" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_escort" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_escort" value="2" /> 2</label>
+                <label><input type="radio" name="operators_escort" value="3" /> 3</label>
+                <label><input type="radio" name="operators_escort" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="escort-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Recon & Surveillance Form -->
+            <form id="recon-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Recon & Surveillance" />
+              <h3>Recon &amp; Surveillance</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Target Location:</label>
+              <input type="text" name="target_location" required />
+              <label>Objectives:</label>
+              <textarea name="objectives" rows="2"></textarea>
+              <label>Access Limitations:</label>
+              <textarea name="access_limitations" rows="2"></textarea>
+              <label>Known Enemy Forces or Hazards:</label>
+              <textarea name="hazards" rows="2"></textarea>
+              <label>Special Equipment Needed:</label>
+              <textarea name="special_equipment" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_recon" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_recon" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_recon" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_recon" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_recon" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_recon" value="2" /> 2</label>
+                <label><input type="radio" name="duration_recon" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_recon" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_recon" value="2" /> 2</label>
+                <label><input type="radio" name="operators_recon" value="3" /> 3</label>
+                <label><input type="radio" name="operators_recon" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="recon-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Raid & Sabotage Form -->
+            <form id="raid-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Raid & Sabotage" />
+              <h3>Raid &amp; Sabotage</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Target Location:</label>
+              <input type="text" name="target_location" required />
+              <label>Mission Objectives:</label>
+              <textarea name="mission_objectives" rows="2"></textarea>
+              <label>Preferred Method:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="method_raid" value="stealth" required /> Stealth</label>
+                <label><input type="radio" name="method_raid" value="assault" /> Assault</label>
+              </div>
+              <label>Estimated Enemy Strength:</label>
+              <textarea name="enemy_strength" rows="2"></textarea>
+              <label>Known Defenses:</label>
+              <textarea name="known_defenses" rows="2"></textarea>
+              <label>Special Requests:</label>
+              <textarea name="special_requests" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_raid" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_raid" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_raid" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_raid" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_raid" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_raid" value="2" /> 2</label>
+                <label><input type="radio" name="duration_raid" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_raid" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_raid" value="2" /> 2</label>
+                <label><input type="radio" name="operators_raid" value="3" /> 3</label>
+                <label><input type="radio" name="operators_raid" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="raid-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Extraction & Rescue Form -->
+            <form id="extraction-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Extraction & Rescue" />
+              <h3>Extraction &amp; Rescue</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Target Individual/Asset:</label>
+              <input type="text" name="target_individual" required />
+              <label>Last Known Location:</label>
+              <input type="text" name="last_known_location" required />
+              <label>Hostile Presence:</label>
+              <textarea name="hostile_presence" rows="2"></textarea>
+              <label>Special Challenges (terrain, enemy type):</label>
+              <textarea name="special_challenges" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_extraction" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_extraction" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_extraction" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_extraction" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_extraction" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_extraction" value="2" /> 2</label>
+                <label><input type="radio" name="duration_extraction" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_extraction" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_extraction" value="2" /> 2</label>
+                <label><input type="radio" name="operators_extraction" value="3" /> 3</label>
+                <label><input type="radio" name="operators_extraction" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="extraction-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Bounty Hunting Form -->
+            <form id="bounty-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Bounty Hunting" />
+              <h3>Bounty Hunting</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Target Name/Description:</label>
+              <input type="text" name="target_name" required />
+              <label>Last Known Location:</label>
+              <input type="text" name="last_known_location" required />
+              <label>Threat Level:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="threat_level" value="low" required /> Low</label>
+                <label><input type="radio" name="threat_level" value="medium" /> Medium</label>
+                <label><input type="radio" name="threat_level" value="high" /> High</label>
+                <label><input type="radio" name="threat_level" value="extreme" /> Extreme</label>
+              </div>
+              <label>Capture or Elimination:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="capture_or_elim" value="capture" required /> Capture</label>
+                <label><input type="radio" name="capture_or_elim" value="elimination" /> Elimination</label>
+              </div>
+              <label>Known Allies of Target:</label>
+              <textarea name="known_allies" rows="2"></textarea>
+              <label>Special Conditions:</label>
+              <textarea name="special_conditions" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_bounty" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_bounty" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_bounty" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_bounty" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_bounty" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_bounty" value="2" /> 2</label>
+                <label><input type="radio" name="duration_bounty" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_bounty" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_bounty" value="2" /> 2</label>
+                <label><input type="radio" name="operators_bounty" value="3" /> 3</label>
+                <label><input type="radio" name="operators_bounty" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="bounty-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Settlement Defense Form -->
+            <form id="settlement-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Settlement Defense" />
+              <h3>Settlement Defense</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Settlement Location:</label>
+              <input type="text" name="settlement_location" required />
+              <label>Size of Settlement:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="settlement_size" value="small" required /> Small</label>
+                <label><input type="radio" name="settlement_size" value="medium" /> Medium</label>
+                <label><input type="radio" name="settlement_size" value="large" /> Large</label>
+              </div>
+              <label>Number of Defenders Present:</label>
+              <input type="number" name="defenders_present" min="0" />
+              <label>Threat Description:</label>
+              <textarea name="threat_description" rows="2"></textarea>
+              <label>Special Requirements:</label>
+              <textarea name="special_requirements" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_settlement" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_settlement" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_settlement" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_settlement" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_settlement" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_settlement" value="2" /> 2</label>
+                <label><input type="radio" name="duration_settlement" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_settlement" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_settlement" value="2" /> 2</label>
+                <label><input type="radio" name="operators_settlement" value="3" /> 3</label>
+                <label><input type="radio" name="operators_settlement" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="settlement-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Training & Tactical Support Form -->
+            <form id="training-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Training & Tactical Support" />
+              <h3>Training &amp; Tactical Support</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Number of Trainees:</label>
+              <input type="number" name="number_of_trainees" min="1" required />
+              <label>Skill Level:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="skill_level" value="beginner" required /> Beginner</label>
+                <label><input type="radio" name="skill_level" value="intermediate" /> Intermediate</label>
+                <label><input type="radio" name="skill_level" value="advanced" /> Advanced</label>
+              </div>
+              <label>Training Focus:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="training_focus" value="combat" required /> Combat</label>
+                <label><input type="radio" name="training_focus" value="survival" /> Survival</label>
+                <label><input type="radio" name="training_focus" value="tactics" /> Tactics</label>
+              </div>
+              <label>Location:</label>
+              <input type="text" name="training_location" required />
+              <label>Special Equipment Needed:</label>
+              <textarea name="training_equipment" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_training" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_training" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_training" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_training" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_training" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_training" value="2" /> 2</label>
+                <label><input type="radio" name="duration_training" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_training" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_training" value="2" /> 2</label>
+                <label><input type="radio" name="operators_training" value="3" /> 3</label>
+                <label><input type="radio" name="operators_training" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="training-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+
+            <!-- Custom Mission Form -->
+            <form id="custom-form" class="contract-form" action="/api/submit" method="POST">
+              <input type="hidden" name="form" value="Custom Operations" />
+              <h3>Custom Operations</h3>
+              <label>Client PSN Name:</label>
+              <input type="text" name="client_psn" required />
+              <label>Discord Name (e.g., user#1234):</label>
+              <input type="text" name="discord_name" required />
+              <label>Mission Overview:</label>
+              <textarea name="mission_overview" rows="2"></textarea>
+              <label>Objectives:</label>
+              <textarea name="objectives_custom" rows="2"></textarea>
+              <label>Target Location:</label>
+              <input type="text" name="target_location" />
+              <label>Known Threats:</label>
+              <textarea name="known_threats" rows="2"></textarea>
+              <label>Preferred Approach:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="approach_custom" value="stealth" required /> Stealth</label>
+                <label><input type="radio" name="approach_custom" value="assault" /> Assault</label>
+                <label><input type="radio" name="approach_custom" value="negotiation" /> Negotiation</label>
+                <label><input type="radio" name="approach_custom" value="other" /> Other</label>
+              </div>
+              <label>Special Equipment or Support Needed:</label>
+              <textarea name="special_support" rows="2"></textarea>
+              <label>Additional Notes:</label>
+              <textarea name="additional_notes" rows="2"></textarea>
+              <label>Service Tier:</label>
+              <div class="radio-group">
+                <label><input type="radio" name="value_custom" value="low" required /> Tier&nbsp;1 – Safe, low‑risk missions</label>
+                <label><input type="radio" name="value_custom" value="medium" /> Tier&nbsp;2 – Moderate risk</label>
+                <label><input type="radio" name="value_custom" value="high" /> Tier&nbsp;3 – High risk</label>
+                <label><input type="radio" name="value_custom" value="ultra" /> Tier&nbsp;4 – Maximum risk</label>
+              </div>
+              <label>Mission Duration (days):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="duration_custom" value="1" required /> 1</label>
+                <label><input type="radio" name="duration_custom" value="2" /> 2</label>
+                <label><input type="radio" name="duration_custom" value="3" /> 3</label>
+              </div>
+              <label>Number of Operators (max 4):</label>
+              <div class="radio-group">
+                <label><input type="radio" name="operators_custom" value="1" required /> 1</label>
+                <label><input type="radio" name="operators_custom" value="2" /> 2</label>
+                <label><input type="radio" name="operators_custom" value="3" /> 3</label>
+                <label><input type="radio" name="operators_custom" value="4" /> 4</label>
+              </div>
+              <p class="cost-estimate" id="custom-cost">Total Cost: 0 caps — Deposit: 0 caps</p>
+              <button type="submit">Submit Contract</button>
+            </form>
+        </section>
+
+        <!-- Recruitment section -->
+        <section id="recruitment" class="section">
+            <h2>Recruitment</h2>
+            <p>
+              Become part of the Vultures. Applicants must be 18 years or older,
+              possess a working microphone, complete our basic training, and
+              agree to follow the company's guidelines. Pay comes from
+              contracts you accept – Brad receives 20% of mission profits
+              and the remainder is divided among participating members.
+            </p>
+            <form id="recruitment-form" action="/api/submit" method="POST" class="recruitment-form">
+              <input type="hidden" name="form" value="Recruitment Application" />
+              <label for="applicant-psn">PSN Name:</label>
+              <input type="text" id="applicant-psn" name="applicant_psn" required />
+              <label for="applicant-discord">Discord Name (e.g., user#1234):</label>
+              <input type="text" id="applicant-discord" name="applicant_discord" required />
+              <label for="applicant-age">Age:</label>
+              <input type="number" id="applicant-age" name="applicant_age" min="18" required />
+              <label>Do you have a microphone?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="has_mic" value="yes" required /> Yes</label>
+                <label><input type="radio" name="has_mic" value="no" /> No</label>
+              </div>
+              <label>Do you agree to complete basic training and follow guidelines?</label>
+              <div class="radio-group">
+                <label><input type="radio" name="training_agree" value="yes" required /> Yes</label>
+                <label><input type="radio" name="training_agree" value="no" /> No</label>
+              </div>
+              <button type="submit">Apply to Join</button>
+            </form>
+        </section>
+
+        <!-- Ranks section -->
+        <section id="ranks" class="section">
+            <h2>Ranks &amp; Roles</h2>
+            <ul>
+              <li><strong>Recruit:</strong> New members who must accompany a Talon on missions.</li>
+              <li><strong>Talon:</strong> Junior mercenaries trusted with basic missions and support roles.</li>
+              <li><strong>Vulture:</strong> Experienced mercenaries qualified for most missions.</li>
+              <li><strong>Beak Commander:</strong> Officers who lead squads and handle tactical decisions.</li>
+              <li><strong>Patriarch:</strong> Overall leader; chooses which missions to accept but cannot be hired directly.</li>
+            </ul>
+        </section>
+
+        <!-- Pricing section -->
+        <section id="pricing" class="section">
+            <h2>Pricing</h2>
+            <p>
+              The table below lists base prices for each mission type. The total
+              cost depends on the service tier, number of operators and the
+              mission's duration. A deposit of 50% is required up front,
+              with the remainder due upon completion.
+            </p>
+            <table class="pricing-table">
+              <thead>
+                <tr><th>Mission Type</th><th>Base Price (caps)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Convoy Escort</td><td>500</td></tr>
+                <tr><td>Recon &amp; Surveillance</td><td>700</td></tr>
+                <tr><td>Raid &amp; Sabotage</td><td>1200</td></tr>
+                <tr><td>Extraction &amp; Rescue</td><td>1500</td></tr>
+                <tr><td>Bounty Hunting</td><td>1000</td></tr>
+                <tr><td>Settlement Defense</td><td>1000</td></tr>
+                <tr><td>Training &amp; Tactical Support</td><td>600</td></tr>
+                <tr><td>Custom Operations</td><td>1000</td></tr>
+              </tbody>
+            </table>
+        </section>
+
+        <!-- Disclosures section -->
+        <section id="disclosures" class="section">
+            <h2>Disclosures</h2>
+            <p>
+              The Vultures are a fictional mercenary company created for roleplay
+              and entertainment. All missions, contracts and characters are part
+              of a creative universe inspired by post‑apocalyptic games. Any
+              resemblance to real organisations or events is purely coincidental.
+            </p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
